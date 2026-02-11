@@ -168,6 +168,7 @@ Route::group(['prefix' => 'nodes'], function () {
     Route::delete('/view/{node:id}/delete', [Admin\NodesController::class, 'delete'])->name('admin.nodes.view.delete');
     Route::delete('/view/{node:id}/allocation/remove/{allocation:id}', [Admin\NodesController::class, 'allocationRemoveSingle'])->name('admin.nodes.view.allocation.removeSingle');
     Route::delete('/view/{node:id}/allocations', [Admin\NodesController::class, 'allocationRemoveMultiple'])->name('admin.nodes.view.allocation.removeMultiple');
+    Route::get('/view/{node:id}/stats', [Admin\VeltaStudios\NodeStatsController::class, 'getNodeStats'])->name('admin.nodes.view.stats');
 });
 
 /*
