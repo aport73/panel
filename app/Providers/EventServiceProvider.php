@@ -45,5 +45,6 @@ class EventServiceProvider extends ServiceProvider
         Server::observe(ServerObserver::class);
         Subuser::observe(SubuserObserver::class);
         EggVariable::observe(EggVariableObserver::class);
+        \Pterodactyl\Models\Database::observe(static::class);
     }
 }

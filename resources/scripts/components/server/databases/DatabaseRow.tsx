@@ -19,6 +19,7 @@ import Label from '@/components/elements/Label';
 import Input from '@/components/elements/Input';
 import GreyRowBox from '@/components/elements/GreyRowBox';
 import CopyOnClick from '@/components/elements/CopyOnClick';
+import DatabaseActions from './DatabaseActions';
 
 interface Props {
     database: ServerDatabase;
@@ -89,6 +90,7 @@ export default ({ database, className }: Props) => {
                                 <Button type={'button'} isSecondary css={tw`mr-2`} onClick={() => setVisible(false)}>
                                     Cancel
                                 </Button>
+                                <DatabaseActions database={database} />
                                 <Button type={'submit'} color={'red'} disabled={!isValid}>
                                     Delete Database
                                 </Button>

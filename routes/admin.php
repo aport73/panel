@@ -227,3 +227,46 @@ Route::group(['prefix' => 'nests'], function () {
     Route::delete('/egg/{egg:id}', [Admin\Nests\EggController::class, 'destroy']);
     Route::delete('/egg/{egg:id}/variables/{variable:id}', [Admin\Nests\EggVariableController::class, 'destroy']);
 });
+
+/*
+|--------------------------------------------------------------------------
+| Panic Mode Controller Routes
+|--------------------------------------------------------------------------
+|
+| Endpoint: /admin/panicmode
+|
+*/
+Route::group(['prefix' => 'panicmode'], function () {
+    Route::get('/', [Admin\PanicModeController::class, 'index'])->name('admin.panicmode');
+    Route::post('/', [Admin\PanicModeController::class, 'update'])->name('admin.panicmode.update');
+    Route::post('/test-webhook', [Admin\PanicModeController::class, 'testWebhook'])->name('admin.panicmode.test-webhook');
+    Route::post('/manual-check', [Admin\PanicModeController::class, 'manualCheck'])->name('admin.panicmode.manual-check');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Network Statistics Controller Routes
+|--------------------------------------------------------------------------
+|
+| Endpoint: /admin/network-statistics
+|
+*/
+Route::group(['prefix' => 'network-statistics'], function () {
+    Route::get('/', [Admin\NetworkStatisticsController::class, 'index'])->name('admin.network.stats');
+    Route::get('/intro', [Admin\NetworkStatisticsController::class, 'intro'])->name('admin.statistics.intro');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Network Settings Controller Routes
+|--------------------------------------------------------------------------
+|
+| Endpoint: /admin/networksettings
+|
+*/
+Route::group(['prefix' => 'networksettings'], function () {
+    Route::get('/', [Admin\NetworkSettingsController::class, 'index'])->name('admin.networksettings');
+    Route::post('/', [Admin\NetworkSettingsController::class, 'update'])->name('admin.networksettings.update');
+    Route::post('/clear', [Admin\NetworkSettingsController::class, 'clearStatistics'])->name('admin.networksettings.clear');
+    Route::post('/collect', [Admin\NetworkSettingsController::class, 'collectAllStatistics'])->name('admin.networksettings.collect');
+});

@@ -27,7 +27,8 @@ class DaemonServerRepository extends DaemonRepository
             $response = $this->getHttpClient()->get(
                 sprintf('/api/servers/%s', $this->server->uuid)
             );
-        } catch (TransferException $exception) {
+        }
+        catch (TransferException $exception) {
             throw new DaemonConnectionException($exception, false);
         }
 
@@ -50,7 +51,8 @@ class DaemonServerRepository extends DaemonRepository
                     'start_on_completion' => $startOnCompletion,
                 ],
             ]);
-        } catch (GuzzleException $exception) {
+        }
+        catch (GuzzleException $exception) {
             throw new DaemonConnectionException($exception);
         }
     }
@@ -66,7 +68,8 @@ class DaemonServerRepository extends DaemonRepository
 
         try {
             $this->getHttpClient()->post("/api/servers/{$this->server->uuid}/sync");
-        } catch (GuzzleException $exception) {
+        }
+        catch (GuzzleException $exception) {
             throw new DaemonConnectionException($exception);
         }
     }
@@ -82,7 +85,8 @@ class DaemonServerRepository extends DaemonRepository
 
         try {
             $this->getHttpClient()->delete('/api/servers/' . $this->server->uuid);
-        } catch (TransferException $exception) {
+        }
+        catch (TransferException $exception) {
             throw new DaemonConnectionException($exception);
         }
     }
@@ -101,7 +105,8 @@ class DaemonServerRepository extends DaemonRepository
                 '/api/servers/%s/reinstall',
                 $this->server->uuid
             ));
-        } catch (TransferException $exception) {
+        }
+        catch (TransferException $exception) {
             throw new DaemonConnectionException($exception);
         }
     }
@@ -121,7 +126,8 @@ class DaemonServerRepository extends DaemonRepository
                 '/api/servers/%s/archive',
                 $this->server->uuid
             ));
-        } catch (TransferException $exception) {
+        }
+        catch (TransferException $exception) {
             throw new DaemonConnectionException($exception);
         }
     }
@@ -156,9 +162,42 @@ class DaemonServerRepository extends DaemonRepository
         try {
             $this->getHttpClient()
                 ->post(sprintf('/api/servers/%s/ws/deny', $this->server->uuid), [
-                    'json' => ['jtis' => $jtis],
-                ]);
-        } catch (TransferException $exception) {
+                'json' => ['jtis' => $jtis],
+            ]);
+        }
+        catch (TransferException $exception) {
+            throw new DaemonConnectionException($exception);
+        }
+    }
+
+    /**
+     * Sets the server instance for this repository.
+     *
+     * @throws \Webmozart\Assert\InvalidArgumentException
+     */
+    public function setServer(Server $server): self
+    {
+        $this->server = $server;
+        $this->setNode($this->server->node); // Initialize node
+        return $this;
+    }
+    /**
+     * Get protocol-specific network statistics from Wings.
+     *
+     * @throws \Pterodactyl\Exceptions\Http\Connection\DaemonConnectionException
+     */
+    public function getProtocolStats(): array
+    {
+        Assert::isInstanceOf($this->server, Server::class);
+
+        try {
+            $response = $this->getHttpClient()->get(
+                sprintf('/api/servers/%s/stats/protocols', $this->server->uuid)
+            );
+
+            return json_decode($response->getBody()->getContents(), true);
+        }
+        catch (TransferException $exception) {
             throw new DaemonConnectionException($exception);
         }
     }

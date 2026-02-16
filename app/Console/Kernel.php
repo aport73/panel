@@ -12,6 +12,7 @@ use Pterodactyl\Services\Telemetry\TelemetryCollectionService;
 use Pterodactyl\Console\Commands\Schedule\ProcessRunnableCommand;
 use Pterodactyl\Console\Commands\Maintenance\PruneOrphanedBackupsCommand;
 use Pterodactyl\Console\Commands\Maintenance\CleanServiceBackupFilesCommand;
+use Pterodactyl\Services\Statistics\StatisticsKernelHelpers;
 
 class Kernel extends ConsoleKernel
 {
@@ -43,6 +44,9 @@ class Kernel extends ConsoleKernel
         if (config('activity.prune_days')) {
             $schedule->command(PruneCommand::class, ['--model' => [ActivityLog::class]])->daily();
         }
+
+        app(StatisticsKernelHelpers::class)->scheduleStatisticsCollection($schedule);
+        $schedule->command('pterodactyl:panic-mode:check-bandwidth')->everyMinute()->withoutOverlapping();
 
         if (config('pterodactyl.telemetry.enabled')) {
             $this->registerTelemetry($schedule);
