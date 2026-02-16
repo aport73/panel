@@ -10,4 +10,4 @@ chown -R www-data:www-data /var/www/pterodactyl/*
 php artisan queue:restart
 php artisan up
 blueprint -upgrade
-blueprint -i betterfilesmanager configeditor eggify environmentvariables laravellogs playerlisting playermanager pullfiles serverbackgrounds serverimporter sociallogin
+blueprint -i betterfilesmanager configeditor eggify environmentvariables laravellogs playermanager pullfiles serverbackgrounds serverimporter sociallogin
