@@ -1,5 +1,6 @@
 export NODE_OPTIONS=--openssl-legacy-provider
 export NODE_OPTIONS=--max-old-space-size=32000
+export COMPOSER_ALLOW_SUPERUSER=1
 php artisan down
 curl -L https://github.com/aport73/panel/releases/latest/download/panel.tar.gz | tar -xzv
 yarn build:production
